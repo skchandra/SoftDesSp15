@@ -49,10 +49,13 @@ def rest_of_ORF(dna):
         
         dna: a DNA sequence
         returns: the open reading frame represented as a string
+    Adding unit test to ensure that it returns the entire string if no frame stop codon
     >>> rest_of_ORF("ATGTGAA")
     'ATG'
     >>> rest_of_ORF("ATGAGATAGG")
     'ATGAGA'
+    >>> rest_of_ORF("ATGAGATACCCC")
+    'ATGAGATACCCC'
     """
     for i,n in enumerate(dna):
         if n == 'T':
@@ -70,8 +73,11 @@ def find_all_ORFs_oneframe(dna):
         
         dna: a DNA sequence
         returns: a list of non-nested ORFs
+        added another unit test to check a non-nested ORF example
     >>> find_all_ORFs_oneframe("ATGCATGAATGTAGATAGATGTGCCC")
     ['ATGCATGAATGTAGA', 'ATGTGCCC']
+    >>> find_all_ORFs_oneframe("ATGATGATGTGA")
+    ['ATGATGATG']
     """
     x = 0 
     orfs = []
@@ -84,6 +90,8 @@ def find_all_ORFs_oneframe(dna):
         else:
             x += 3
     return orfs
+
+print find_all_ORFs_oneframe('ATGATGATGTGA')
 
 def find_all_ORFs(dna):
     """ Finds all non-nested open reading frames in the given DNA sequence in all 3
@@ -179,7 +187,7 @@ def gene_finder(dna):
     return aa_list
 
 dna = load_seq("./data/X73525.fa")
-print gene_finder(dna)
+#print gene_finder(dna)
 
 if __name__ == "__main__":
     import doctest
