@@ -91,8 +91,6 @@ def find_all_ORFs_oneframe(dna):
             x += 3
     return orfs
 
-print find_all_ORFs_oneframe('ATGATGATGTGA')
-
 def find_all_ORFs(dna):
     """ Finds all non-nested open reading frames in the given DNA sequence in all 3
         possible frames and returns them as a list.  By non-nested we mean that if an
@@ -147,6 +145,9 @@ def longest_ORF_noncoding(dna, num_trials):
         longl.append(longest_ORF(dna))
     return max(longl,key=len)
 
+dna = load_seq("./data/X73525.fa")
+print longest_ORF_noncoding(dna,1500)
+
 def coding_strand_to_AA(dna):
     """ Computes the Protein encoded by a sequence of DNA.  This function
         does not check for start and stop codons (it assumes that the input
@@ -178,7 +179,7 @@ def gene_finder(dna):
         returns: a list of all amino acid sequences whose ORFs meet the minimum
                  length specified.
     """
-    longest = len(longest_ORF_noncoding(dna,1500))
+    longest = len(longest_ORF_noncoding(dna,150))
     all_orfs = find_all_ORFs_both_strands(dna)
     aa_list = []
     for n in all_orfs:
