@@ -145,9 +145,6 @@ def longest_ORF_noncoding(dna, num_trials):
         longl.append(longest_ORF(dna))
     return max(longl,key=len)
 
-dna = load_seq("./data/X73525.fa")
-print longest_ORF_noncoding(dna,1500)
-
 def coding_strand_to_AA(dna):
     """ Computes the Protein encoded by a sequence of DNA.  This function
         does not check for start and stop codons (it assumes that the input
@@ -188,7 +185,7 @@ def gene_finder(dna):
     return aa_list
 
 dna = load_seq("./data/X73525.fa")
-#print gene_finder(dna)
+print gene_finder(dna)
 
 if __name__ == "__main__":
     import doctest

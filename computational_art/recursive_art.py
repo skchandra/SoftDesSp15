@@ -1,4 +1,6 @@
-""" TODO: Put your header comment here """
+""" Shivali Chandra
+2/17/15
+Create random art using recursive randomly generated functions """
 
 from random import randint
 import math
@@ -177,5 +179,5 @@ if __name__ == '__main__':
     import doctest
     doctest.testmod()
 
-    generate_art("example15.png")
+    generate_art("example17.png")
 
