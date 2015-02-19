@@ -1,8 +1,8 @@
 """ TODO: Put your header comment here """
 
-import random
+from random import randint
+import math
 from PIL import Image
-
 
 def build_random_function(min_depth, max_depth):
     """ Builds a random function of depth at least min_depth and depth
@@ -15,9 +15,37 @@ def build_random_function(min_depth, max_depth):
                  (see assignment writeup for details on the representation of
                  these functions)
     """
-    # TODO: implement this
-    pass
+    funcs = ["prod","avg","cos_pi","sin_pi","sigmoid","sqroot","x","y"]
+    if (min_depth==1) or (max_depth==1):
+        return funcs[randint(6,7)]
+    elif (min_depth>1) or (max_depth>1):
+        ran_func = funcs[randint(0,7)]
+    if ran_func == funcs[2:7]:
+        return [ran_func,build_random_function(min_depth-1,max_depth-1)]
+    else:
+        return [ran_func,build_random_function(min_depth-1,max_depth-1),build_random_function(min_depth-1,max_depth-1)]
 
+def prod(a,b):
+    return a * b 
+
+def avg(a,b):
+    return (a+b)/(2)
+
+def cos_pi(a):
+    return math.cos(math.pi*a)
+
+def sin_pi(a):
+    return math.sin(math.pi*a) 
+
+def sigmoid(a):
+    return 1 / (1 + math.exp(-a))
+
+def sqroot(a):
+    a = abs(a)
+    ans = math.sqrt(a)
+    while ans > 1:
+        ans = sqroot(math.sqrt(a))
+    return ans
 
 def evaluate_random_function(f, x, y):
     """ Evaluate the random function f with inputs x,y
@@ -33,10 +61,24 @@ def evaluate_random_function(f, x, y):
         >>> evaluate_random_function(["y"],0.1,0.02)
         0.02
     """
-    if f == ['x']:
+    func = f[0]
+    if func == "prod":
+        return prod(evaluate_random_function(f[1],x,y),evaluate_random_function(f[2],x,y))
+    elif func == "avg":
+        return avg(evaluate_random_function(f[1],x,y),evaluate_random_function(f[2],x,y))
+    elif func == "sin_pi":
+        return sin_pi(evaluate_random_function(f[1],x,y))
+    elif func == "cos_pi":
+        return cos_pi(evaluate_random_function(f[1],x,y))
+    elif func == "sigmoid":
+        return sigmoid(evaluate_random_function(f[1],x,y))
+    elif func == "sqroot":
+        return sqroot(evaluate_random_function(f[1],x,y))
+    elif func == "x":
         return x
-    else: 
+    elif func == "y":
         return y
+
 
 def remap_interval(val, input_interval_start, input_interval_end, output_interval_start, output_interval_end):
     """ Given an input value in the interval [input_interval_start,
@@ -111,9 +153,9 @@ def generate_art(filename, x_size=350, y_size=350):
         x_size, y_size: optional args to set image dimensions (default: 350)
     """
     # Functions for red, green, and blue channels - where the magic happens!
-    red_function = ["x"]
-    green_function = ["y"]
-    blue_function = ["x"]
+    red_function = build_random_function(5,13)
+    green_function = build_random_function(5,13)
+    blue_function = build_random_function(5,13)
 
     # Create image and loop over all pixels
     im = Image.new("RGB", (x_size, y_size))
@@ -135,5 +177,5 @@ if __name__ == '__main__':
     import doctest
     doctest.testmod()
 
-    generate_art("myart.png")
+    generate_art("example15.png")
 

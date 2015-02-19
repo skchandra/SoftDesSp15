@@ -42,8 +42,48 @@ def my_circle(turtle,start_x,start_y,radius):
 	n = int(circ / m)
 	my_regular_polygon(turtle,x,y,n,m)
 
+def snowflake_side(turtle,length,level):
+	turtle.delay = 0.01
+	if level > 0:
+		turtle.x = level*level
+		turtle.y = level*level
+		turtle.fd(length)
+		turtle.rt(60)
+		turtle.fd(length)
+		turtle.lt(120)
+		turtle.fd(length)
+		turtle.rt(60)
+		turtle.fd(length)
+		snowflake_side(turtle,float(length)/2.0,level-1)
+
+def neg_snowflake_side(turtle,length,level):
+	turtle.delay = 0.001
+	if level > 0:
+		turtle.x = level*level
+		turtle.y = level*level
+		turtle.fd(length)
+		turtle.lt(60)
+		turtle.fd(length)
+		turtle.rt(120)
+		turtle.fd(length)
+		turtle.lt(60)
+		turtle.fd(length)
+		snowflake_side(turtle,float(length)/3.0,level-1)
+
+def snowflake(turtle,length,level):
+	for i in range(0,length*15):
+		"""turtle.x = 0
+		turtle.y = 0"""
+		if i%2 != 0:
+			snowflake_side(turtle,length,level)
+			turtle.lt(360.0/(length*15))
+		else:
+			neg_snowflake_side(turtle,length,level)
+			turtle.lt(360.0/(length*15))
 
 
+snowflake(beth,20,6)
+die(beth)
 
 #my_circle(beth,0,0,100)
 #my_regular_polygon(beth,0,0,7,20)
