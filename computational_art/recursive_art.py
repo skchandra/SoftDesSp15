@@ -15,32 +15,32 @@ def build_random_function(min_depth, max_depth):
                  (see assignment writeup for details on the representation of
                  these functions)
     """
-    funcs = ["prod","avg","cos_pi","sin_pi","sigmoid","sqroot","x","y"]
+    funcs = ["prod","avg","cos_pi","sin_pi","sigmoid","sqroot","x","y"] #all the available functions
     if (min_depth==1) or (max_depth==1):
-        return funcs[randint(6,7)]
+        return funcs[randint(6,7)]  #only select x or y
     elif (min_depth>1) or (max_depth>1):
-        ran_func = funcs[randint(0,7)]
-    if ran_func == funcs[2:7]:
+        ran_func = funcs[randint(0,7)]  #select any function
+    if ran_func == funcs[2:7]:  #check to ensure that the correct number of arguments are passing through
         return [ran_func,build_random_function(min_depth-1,max_depth-1)]
     else:
         return [ran_func,build_random_function(min_depth-1,max_depth-1),build_random_function(min_depth-1,max_depth-1)]
 
-def prod(a,b):
+def prod(a,b):  #product of a and b
     return a * b 
 
-def avg(a,b):
+def avg(a,b):   #average of a and b
     return (a+b)/(2)
 
-def cos_pi(a):
+def cos_pi(a):  #cosine of pi*a
     return math.cos(math.pi*a)
 
-def sin_pi(a):
+def sin_pi(a):  #sine of pi*a
     return math.sin(math.pi*a) 
 
-def sigmoid(a):
+def sigmoid(a): #sigmoid function with a
     return 1 / (1 + math.exp(-a))
 
-def sqroot(a):
+def sqroot(a):  #recursive function to find square roots of a until value is under 1
     a = abs(a)
     ans = math.sqrt(a)
     while ans > 1:
