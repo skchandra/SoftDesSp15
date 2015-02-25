@@ -1,0 +1,121 @@
+""" SHIVALI CHANDRA
+	FEBRUARY 22, 2015
+	This is a program that opens a novel as a text file and can analyze it in multiple ways, including sentiment analysis and word frequency.
+"""
+
+import plotly.plotly as py
+from plotly.graph_objs import *
+from pattern.en import *
+import re
+
+def top_words(v,k,num):
+	nd = {}
+	for i in range(0,num):
+		key = k[v.index(max(v))]
+		val = max(v)
+		nd[key] = val
+		k.remove(key)
+		v.remove(val)
+	return nd
+
+def word_frequency(dictionary,name):
+	v=list(dictionary.values())
+	k=list(dictionary.keys())
+	kv = top_words(v,k,30)
+	x = kv.keys()
+	y = kv.values()
+	data = Data([
+	    Bar(
+	        x=x,
+	        y=y
+	    )
+	])
+	plot_url = py.plot(data, filename=name)
+
+def line_sentiment(alllines,filename):
+	very_happy = []
+	happy = []
+	neutral = []
+	neg = []
+	very_neg = []
+	vh_pg = []
+	h_pg = []
+	n_pg = []
+	neg_pg = []
+	vn_pg = []
+	sents = []
+	for i,n in enumerate(alllines):
+		sent = sentiment(n)[0]
+		sents.append(sent)
+		if sent >= .5:
+			very_happy.append(i)
+			#vh_pg.append(i)
+		elif (sent > 0) and (sent < .5):
+			happy.append(i)
+			#h_pg.append(i)
+		elif sent == 0:
+			neutral.append(i)
+			#n_pg.append(i)
+		elif (sent < 0) and (sent >= -0.5):
+			neg.append(i)
+			#neg_pg.append(i)
+		else:
+			very_neg.append(i)
+			#vn_pg.append(i)
+
+	data = Data([
+    Heatmap(
+        z=sents,
+        x=len(alllines),
+        y=len(alllines),
+        name='trace 0',
+        colorscale=[[-1.0, 'rgb(33, 102, 172)'],  [-0.5, 'rgb(146, 197, 222)'],  [0.0, 'rgb(247, 247, 247)'], [0.5, 'rgb(244, 165, 130)'],[1.0, 'rgb(178, 24, 43)']],
+        colorbar=ColorBar(
+            title=''
+        ),
+        showlegend=True,
+        x0=0,
+        dx=1,
+        y0=0,
+        dy=1
+	    )
+	])
+	layout = Layout(
+	    title='<br>How Common is Your Birthday?',
+	    titlefont=Font(
+	        family='',
+	        size=0,
+	        color=''
+	    ),
+	    font=Font(
+	        family='Raleway, sans-serif',
+	        size=12,
+	        color='rgb(33, 33, 33)'
+	    ),
+	)
+	fig = Figure(data=data, layout=layout)
+	plot_url = py.plot(fig,filename=filename)
+
+def book_analysis(filename):
+	lines = open(filename).readlines() 
+	d = dict()
+	count = 0
+	chapters = []
+  	for line in range(0,len(lines)):
+  		if (lines[line] in ['\n','\r\n']):
+  			count+=1
+  			if count > 4: 
+  				chapters.append(line)
+  		else:
+  			count = 0
+  		words = lines[line].split()
+  		for word in words:
+  			punctuation = re.compile(r'[.?!,":;]') 
+  			word = punctuation.sub('', word)
+  			word = word.lower()
+			d[word] = d.get(word,0)+1
+	#word_frequency(d,filename)
+	line_sentiment(lines,filename)
+	
+print book_analysis('AGameOfThrones1.txt')
+
