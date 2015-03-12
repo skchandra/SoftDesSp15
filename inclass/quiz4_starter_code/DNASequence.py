@@ -4,7 +4,11 @@ class DNASequence(object):
         """ constructs a DNASequence with the specified nucleotides.
              nucleotides: the nucleotides represented as a string of
                           capital letters consisting of A's, C's, G's, and T's """
+<<<<<<< HEAD
         self.nucleotides = nucleotides
+=======
+        pass
+>>>>>>> 263d331044a840a5f2191e608e4cffca553b9e67
  
     def __str__(self):
         """ Returns a string containing the nucleotides in the DNASequence
@@ -12,7 +16,11 @@ class DNASequence(object):
         >>> print seq
         TTTGCC
         """
+<<<<<<< HEAD
         return self.nucleotides
+=======
+        pass
+>>>>>>> 263d331044a840a5f2191e608e4cffca553b9e67
 
     def get_reverse_complement(self):
         """ Returns the reverse complement DNA sequence represented
@@ -25,6 +33,7 @@ class DNASequence(object):
             >>> print type(rev)
             <class '__main__.DNASequence'>
         """
+<<<<<<< HEAD
         seq = self.nucleotides
         rev_dna = (seq[::-1])
         reverse = ''
@@ -39,6 +48,9 @@ class DNASequence(object):
                 reverse+='G'
         rev = DNASequence(reverse)
         return rev
+=======
+        pass
+>>>>>>> 263d331044a840a5f2191e608e4cffca553b9e67
 
     def get_proportion_ACGT(self):
         """ Computes the proportion of nucleotides in the DNA sequence
@@ -53,6 +65,7 @@ class DNASequence(object):
         >>> print (d['A'], d['C'], d['G'], d['T'])
         (0.4, 0.2, 0.3, 0.1)
         """
+<<<<<<< HEAD
         seq = self.nucleotides
         d = {}
         for i in seq:
@@ -60,6 +73,9 @@ class DNASequence(object):
         for i in d:
             d[i] = d.get(i,0)/len(seq)
         return d
+=======
+        pass
+>>>>>>> 263d331044a840a5f2191e608e4cffca553b9e67
 
 if __name__ == '__main__':
     import doctest
