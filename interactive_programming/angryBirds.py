@@ -197,6 +197,11 @@ class Bird(pygame.sprite.Sprite):
         There are also boundary conditions on the dart rectangle to make sure it 
         always stays in the screen
         """
+        if not self.in_flight():
+            if self.rect.centerx > 250:
+                self.xMove = 0
+                self.yMove = 0
+                print 'y'
         self.xMove = self.v_x
         self.yMove = self.v_y
         self.rect = self.rect.move(self.xMove,self.yMove)

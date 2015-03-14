@@ -35,8 +35,8 @@ def get_top_n_words(word_list, n):
 	for word in word_list:
 		word_count[word] = word_count.get(word,0)+1
 	#breaks dictionary into lists of values and keys
-	v=list(word_count.values())
-	k=list(word_count.keys())
+	v=word_count.values()
+	k=word_count.keys()
 	new_dict = {}
 	#loops through to find inputted number of frequent words
 	if len(word_count) < n:
@@ -48,6 +48,7 @@ def get_top_n_words(word_list, n):
 		#removes the word from word_count to find next highest word count
 		k.remove(key)
 		v.remove(val)
-	return sorted(new_dict.items(), key=lambda item: item[1],reverse=True)
+	new_dict = sorted(new_dict.items(), key=lambda item: item[1],reverse=True)
+	return [i[0] for i in new_dict]
 
 print get_word_list('TheLittlePrince.txt')
