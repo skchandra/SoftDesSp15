@@ -38,8 +38,8 @@ def update_counter(file_name, reset=False):
 	if not exists(file_name) or reset: #file has not been opened or has been reset
 		text = open(file_name, "w")
 		counter = 1
-		dump(counter,text)
 		text.seek(0,0)
+		dump(counter,text)	
 		text.close()
 	return counter
 
