@@ -29,11 +29,23 @@ def update_counter(file_name, reset=False):
 	>>> update_counter('blah2.txt')
 	2
 	"""
-	pass
+	if exists(file_name) and not reset: #file has been opened, has not been reset
+		text = open(file_name,"r+")
+		counter = load(text)+1
+		text.seek(0,0)
+		dump(counter,text)
+		text.close()
+	if not exists(file_name) or reset: #file has not been opened or has been reset
+		text = open(file_name, "w")
+		counter = 1
+		dump(counter,text)
+		text.seek(0,0)
+		text.close()
+	return counter
 
 if __name__ == '__main__':
 	if len(sys.argv) < 2:
 		import doctest
 		doctest.testmod()
 	else:
-		print "new value is " + str(update_counter(sys.argv[1]))
+		print "the new value is " + str(update_counter(sys.argv[1]))
