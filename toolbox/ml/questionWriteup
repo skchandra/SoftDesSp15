@@ -1,0 +1,11 @@
+1. What is the general trend in the curve?
+Upwards, as percentage of data increases so too does accuracy overall. 
+
+2. Are there parts of the curve that appear to be noisier than others? Why?
+Each time run, there are a few noisy sections because due to the random number generation, there are bound to be some outliers that throw off that particular area of the graph. 
+
+3. How many trials do you need to get a smooth curve?
+High 40's were pretty close, but 50 was the lowest number of trials that produced a fairly smooth curve. 
+
+4. Try different values for C. What happens? 
+Increasing the value of the exponent decreased accuracy and added more noise. 

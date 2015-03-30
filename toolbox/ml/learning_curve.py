@@ -1,4 +1,5 @@
-""" Exploring learning curves for classification of handwritten digits """
+""" Shivali Chandra 
+Exploring learning curves for classification of handwritten digits """
 
 import matplotlib.pyplot as plt
 import numpy
@@ -8,7 +9,7 @@ from sklearn.linear_model import LogisticRegression
 
 data = load_digits()
 print data.DESCR
-num_trials = 10
+num_trials = 50
 train_percentages = range(5,95,5)
 test_accuracies = numpy.zeros(len(train_percentages))
 
