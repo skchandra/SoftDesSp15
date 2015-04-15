@@ -117,16 +117,29 @@ def make_shape(front,left_side,back,right_side,top,bottom):
 	    )
 	)
 	fig = Figure(data=data, layout=layout)
-	plot_url = py.plot(fig, filename='simple-3d-scatter')
+	#plot_url = py.plot(fig, filename='simple-3d-scatter')
 
-	return "front:",front_3D,"left:",left_side_3D,"back:",back_3D,"right:",right_side_3D,"top:",top_3D,"bottom:",bottom_3D
+	return front_3D,left_side_3D,back_3D,right_side_3D,top_3D,bottom_3D
+
+def output_xyz(front_3D,left_side_3D,back_3D,right_side_3D,top_3D,bottom_3D):
+	list_tuples = make_shape(front_2D,left_side_2D,back_2D,right_side_2D,top_2D,bottom_2D)
+	x = list()
+	y = list()
+	z = list()
+	for i in list_tuples: 
+		lists = [i for sub in list_tuples for i in sub]
+	for m,(j,k,l) in enumerate(lists):
+		x.append(j)
+		y.append(k)
+		z.append(l)
+	return x,y,z
 
 #define each face for testing purposes
-front_2D = [(0,0),(10,0),(10,5),(0,5)]
-left_side_2D = [(0,0),(5,0),(5,5),(0,5)]
-back_2D = [(0,0),(10,0),(10,5),(0,5)]
-right_side_2D = [(0,0),(5,0),(5,5),(0,5)]
-top_2D = [(0,0),(10,0),(10,5),(0,5)]
-bottom_2D = [(0,0),(10,0),(10,5),(0,5)]
+front_2D = [(0,0),(80,0),(80,73),(0,73)]
+left_side_2D = [(0,0),(66,0),(66,76),(0,76)]
+back_2D = [(0,0),(80,0),(80,73),(0,73)]
+right_side_2D = [(0,0),(81,0),(81,77),(0,77)]
+top_2D = [(0,0),(71,0),(71,68),(0,68)]
+bottom_2D = [(0,0),(80,0),(80,73),(0,73)]
 #convert coordinates
-print make_shape(front_2D,left_side_2D,back_2D,right_side_2D,top_2D,bottom_2D)
+print output_xyz(front_2D,left_side_2D,back_2D,right_side_2D,top_2D,bottom_2D)
