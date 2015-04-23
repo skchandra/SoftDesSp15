@@ -6,43 +6,45 @@ until they meet, forming a closed 3D shape.
 import numpy as np
 import math
 
+def find_intersection_distances(p1,y1,x1,y2,x2):
+	if y2-y1 == 0:
+		dist = math.fabs(p1[1]-y1)
+	elif x2-x1 == 0:
+		dist = math.fabs(p1[0]-x1)
+	else:
+		axis_line_slope = (y2-y1)/(x2-x1)
+		perp_slope = -1/(axis_line_slope)
+		c1 = axis_line_slope * x1 - y1
+		c2 = perp_slope * p1[0] - p1[1]
+		x_intersect = (c2 - c1)/(perp_slope - axis_line_slope)
+		y_intersect = perp_slope * x_intersect + c2
+		dist = math.sqrt((x_intersect-p1[0])**2+(y_intersect-p1[1])**2)
+		hypotenuse = math.sqrt((x2-p1[0])**2+(y2-p1[1])**2)
+		angle = math.asin(dist/hypotenuse)
+	angle = 0
+	return dist,angle
+
 def move_to_actual_coord(old_side,side_dict,side_num,theta):
 	"""Change the xy coordinates of the sides to the correct values from the original image
 		Input: side coordinates, sides dictionary
 		Output: new side coordinates in the sides dictionary	
 	"""
 	final_side = list()
-	move_side = list()
-	rotate = 0
-	yes = False
-	no = False
-	if side_dict[side_num][1][0][1]<side_dict[side_num][1][len(old_side)-1][1]:
-		rotate = 6
-	for j,i in enumerate(old_side):
-		new_x = side_dict[side_num][1][j][0]
-		#rotate side coordinates if needed
-		if rotate > 0:
-			print side_dict[side_num][1],
-			yes = True
-		while rotate > 0:
-			side_dict[side_num][1] = np.roll(side_dict[side_num][1],1)
-			rotate-=1
-		if yes:
-			print side_dict[side_num][1]
-			no = True
-		x_diff = side_dict[side_num][0][j][0] - i[0]
-		x_diff = 0
-		new_y = side_dict[side_num][1][j][1]
-		y_diff = side_dict[side_num][0][j][1] - i[1]
-		y_diff = 0
-		z = i[2]
-		final_coord = new_x-x_diff,new_y-y_diff,z
+	y1 = old_side[0][1]
+	x1 = old_side[0][0]
+	y2 = old_side[len(old_side)-1][1]
+	x2 = old_side[len(old_side)-1][0]
+
+	for i,j in enumerate(old_side):
+		dist = find_intersection_distances((j[0],j[1]),y1,x1,y2,x2)
+		print dist
+
+		z = j[2]
+
+		"""final_coord = new_x-x_diff,new_y-y_diff,z
 		final_side.append(final_coord)
 	side_dict[side_num].append(final_side)
-	if no:
-		print side_dict[side_num][2]
-		no = False
-		yes = False
+	print side_dict[side_num][2]"""
 
 def transform_side(side,theta,xy_coord,side_num):
 	"""Transform the coordinates of the side onto the perpendicular plane using Euler-Rodrigues formula
@@ -89,7 +91,7 @@ def make_dictionaries(sides,xy_coord):
 
 def main(sides,xy_coordinates):
 	"""call things"""
-	theta = 0
+	theta = 45
 	folded_sides = list()
 	length = len(sides)
 	for i in sides:
