@@ -129,7 +129,7 @@ def output(theta,final_list):
 			x.append(j[0])
 			y.append(j[1])
 			z.append(j[2])
-	return theta,x,y,z
+	return x,y,z
 
 def check_sides(run,temp,theta,fin):
 	vector_sides = temp
@@ -207,7 +207,13 @@ side_coordinates = (([0,0],[3,6],[6,0]),([0,0],[3,6],[6,0]),([0,0],[3,6],[6,0]))
 actual_coordinates = (([6,0],[0,0],[3,6]),([3,6],[6,12],[9,6]),([9,6],[12,0],[6,0]))
 print make_dictionaries(side_coordinates,actual_coordinates)"""
 
-"""TRIANGULAR PRISM"""
+"""SQUARE PYRAMID
 side_coordinates = (([0,0],[3,6],[6,0]),([0,0],[3,6],[6,0]),([0,0],[3,6],[6,0]),([0,0],[3,6],[6,0]))
 actual_coordinates = (([6,6],[0,9],[6,12]),([6,12],[9,18],[12,12]),([12,12],[18,9],[12,6]),([12,6],[9,0],[6,6]))
+print make_dictionaries(side_coordinates,actual_coordinates)"""
+
+"""TRIANGULAR PRISM"""
+side_coordinates = (([0,0],[0,6],[6,6],[6,0]),([0,0],[3,6],[6,0]),([0,0],[0,6],[6,6],[6,0]),([0,0],[3,6],[6,0]))
+actual_coordinates = (([6,6],[0,6],[0,12],[6,12]),([6,12],[9,18],[12,12]),([12,12],[18,12],[18,6],[12,6]),([12,6],[9,0],[6,6]))
+
 print make_dictionaries(side_coordinates,actual_coordinates)
