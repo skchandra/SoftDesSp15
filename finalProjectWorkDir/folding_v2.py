@@ -6,6 +6,7 @@ until they meet, forming a closed 3D shape.
 import numpy as np
 import math
 import collections
+from scipy.optimize import fsolve
 
 def find_intersection_distances(p1,y1,x1,y2,x2):
 	if y2-y1 == 0:
@@ -19,13 +20,45 @@ def find_intersection_distances(p1,y1,x1,y2,x2):
 		c2 = perp_slope * p1[0] - p1[1]
 		x_intersect = (c2 - c1)/(perp_slope - axis_line_slope)
 		y_intersect = perp_slope * x_intersect + c2
+		eq1_slope = ((p1)) 
 		dist = math.sqrt((x_intersect-p1[0])**2+(y_intersect-p1[1])**2)
-	hypotenuse = math.sqrt((x2-p1[0])**2+(y2-p1[1])**2)
-	if hypotenuse == 0:
-		angle = 0.0
+
+	return dist
+
+def equations(p):
+    x,y,x2,y2,slope,dist = p
+    return ((y2-y)/(x2-x)-slope, math.sqrt((y2-x)**2+(x2-y)**2)-dist)
+
+x,y =  fsolve(equations,(1,1,1,1,1,1))
+
+def find_coordinates(p1,x1,y1,axis_x1,axis_y1,axis_x2,axis_y2,theta):
+	if (axis_x2>axis_x1) and (axis_y2-axis_y1==0):
+		if math.degrees(theta) <= 90:
+			trans_x,trans_y = p1[0],axis_y2+math.fabs(p1[1]-y1)
+		else:
+			trans_x,trans_y = p1[0],axis_y2-math.fabs(p1[1]-y1)
+	elif (axis_x2<axis_x1) and (axis_y2-axis_y1==0):
+		if math.degrees(theta) <= 90:
+			trans_x,trans_y = p1[0],axis_y2-math.fabs(p1[1]-y1)
+		else:
+			trans_x,trans_y = p1[0],axis_y2+math.fabs(p1[1]-y1)
+	elif (axis_y2>axis_y1) and (axis_x2-axis_x1==0):
+		if math.degrees(theta) <= 90:
+			trans_x,trans_y = axis_x2-math.fabs(p1[0]-x1),p1[1]
+		else:
+			trans_x,trans_y = axis_x2+math.fabs(p1[0]-x1),p1[1]
+	elif (axis_y2<axis_y1) and (axis_x2-axis_x1==0):
+		if math.degrees(theta) <= 90:
+			trans_x,trans_y = axis_x2+math.fabs(p1[0]-x1),p1[1]
+		else:
+			trans_x,trans_y = axis_x2-math.fabs(p1[0]-x1),p1[1]
 	else:
-		angle = math.asin(dist/hypotenuse)
-	return dist,angle
+		axis_slope = (axis_y2-axis_y1)/(axis_x2-axis_x1)
+		point_slope = (y1-p1[1])/(x1-p1[0])
+		dist = math.sqrt((y1-p1[1])**2+(x1-p1[0])**2)
+	print equations((x,y,axis_x2,axis_y2,point_slope,dist))
+
+print find_coordinates((3,4),5,5,5,6,4,0,3)
 
 def move_to_actual_coord(old_side,side_dict,side_num,theta):
 	"""Change the xy coordinates of the sides to the correct values from the original image
@@ -45,10 +78,8 @@ def move_to_actual_coord(old_side,side_dict,side_num,theta):
 	for i,j in enumerate(old_side):
 		x = side_dict[side_num][1][i][0]
 		y = side_dict[side_num][1][i][1]
-		intersections = find_intersection_distances((j[0],j[1]),y1,x1,y2,x2)
-		dist = intersections[0]
+		dist = find_intersection_distances((j[0],j[1]),y1,x1,y2,x2)
 		coordinates = {1:(x,(dist+new_yaxis)),2:(x,(new_yaxis-dist)),3:((new_xaxis-dist),y),4:((new_xaxis+dist),y)}
-		intersections = find_intersection_distances((j[0],j[1]),y1,x1,y2,x2)
 		if (new_xaxis>new_xaxis1) and (new_yaxis-new_yaxis1==0):
 			if math.degrees(theta) <= 90:
 				[fin_x,fin_y] = coordinates[1]
@@ -70,9 +101,6 @@ def move_to_actual_coord(old_side,side_dict,side_num,theta):
 			else:
 				[fin_x,fin_y] = coordinates[3]
 
-		#else:	
-			#hyp = intersections[0]/math.sin(intersections[1])
-		#	print intersections
 		
 		z = j[2]
 
